@@ -7,10 +7,10 @@ app_config = None
 class AppConfig:
     _instance = None
 
-    def __new__(cls, config_file="dev_config.yaml"):
+    def __new__(cls, config_file_path=None):
         if cls._instance is None:
             cls._instance = super(AppConfig, cls).__new__(cls)
-            cls._instance.config_file = config_file
+            cls._instance.config_file = config_file_path or config_file
             cls._instance._load_config()
         return cls._instance
 
