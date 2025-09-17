@@ -4,4 +4,5 @@ type SystemConfig struct {
 	Host     string `mapstructure:"host"`
 	Port     int    `mapstructure:"port"`
 	Language string `mapstructure:"language"`
+	Debug    bool   `mapstructure:"debug"`
 }
