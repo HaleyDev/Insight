@@ -1,8 +1,8 @@
 package routers
 
 import (
-	"civ/internal/routers/groups"
-	"civ/internal/routers/setup"
+	"insight/internal/routers/groups"
+	"insight/internal/routers/setup"
 
 	"github.com/gin-gonic/gin"
 )

@@ -1,11 +1,12 @@
 package response
 
 import (
-	"civ/config"
-	"civ/internal/pkg/errors"
-	"github.com/gin-gonic/gin"
+	"insight/config"
+	"insight/internal/pkg/errors"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Result struct {

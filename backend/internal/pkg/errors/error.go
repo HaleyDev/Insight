@@ -1,9 +1,9 @@
 package errors
 
 import (
-	"civ/config"
 	"errors"
 	"fmt"
+	"insight/config"
 )
 
 type BusinessError struct {

@@ -1,8 +1,8 @@
 package server
 
 import (
-	"civ/config"
-	"civ/internal/routers"
+	"insight/config"
+	"insight/internal/routers"
 	"log"
 
 	"github.com/gin-gonic/gin"

@@ -1,7 +1,7 @@
 package groups
 
 import (
-	"civ/internal/routers/setup"
+	"insight/internal/routers/setup"
 
 	"github.com/gin-gonic/gin"
 )

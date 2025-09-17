@@ -1,8 +1,9 @@
 package hello
 
 import (
-	"civ/internal/controller"
-	"civ/internal/service"
+	"insight/internal/controller"
+	"insight/internal/service"
+
 	"github.com/gin-gonic/gin"
 )
 
