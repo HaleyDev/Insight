@@ -18,6 +18,7 @@ var (
 type Config struct {
 	MySQL  autoload.MySQLConfig  `mapstructure:"mysql"`
 	System autoload.SystemConfig `mapstructure:"system"`
+	Logger autoload.LoggerConfig `mapstructure:"logger"`
 }
 
 // LoadConfig loads application configuration from a file and returns a populated Config.

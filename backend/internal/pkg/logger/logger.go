@@ -19,8 +19,8 @@ func InitLogger() {
 }
 
 func createZapLog() *zap.Logger {
-
-	if config.GetConfig().System.Debug == true {
+	Config := config.GetConfig()
+	if Config.System.Debug == true {
 		if Logger, err := zap.NewDevelopment(); err == nil {
 			return Logger
 		} else {
@@ -42,5 +42,15 @@ func createZapLog() *zap.Logger {
 	}
 	filename := filepath.Join(baseFile, "/logs", time.Now().Format("2006-01-02")+".log")
 	var writer zapcore.WriteSyncer
+	if Config.Logger.DefaultDivision == "size" {
+		// 按文件大小切割日志
+		writer = zapcore.AddSync(getLumberJackWriter(filename))
+	} else {
+		// 按天切割日志
+		writer = zapcore.AddSync(getRotateWriter(filename))
+	}
+	zapCore := zapcore.NewCore(encoder, writer, zap.InfoLevel)
+	//zap.AddStacktrace(zap.WarnLevel)
+	return zap.New(zapCore, zap.AddCaller())
 
 }
