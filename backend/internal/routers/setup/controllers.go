@@ -1,6 +1,6 @@
 package setup
 
-import "civ/internal/controller/hello"
+import "insight/internal/controller/hello"
 
 type Controllers struct {
 	HelloController hello.HelloController

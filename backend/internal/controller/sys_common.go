@@ -1,10 +1,11 @@
 package controller
 
 import (
-	"civ/internal/pkg/errors"
-	"github.com/gin-gonic/gin"
-	r "civ/internal/pkg/response"
+	"insight/internal/pkg/errors"
+	r "insight/internal/pkg/response"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Api struct {

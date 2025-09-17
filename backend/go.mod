@@ -1,4 +1,4 @@
-module civ
+module insight
 
 go 1.24.4
 

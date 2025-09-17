@@ -1,8 +1,8 @@
 package data
 
 import (
-	"civ/config"
 	"fmt"
+	"insight/config"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

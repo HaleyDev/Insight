@@ -1,7 +1,7 @@
 package config
 
 import (
-	"civ/config/autoload"
+	"insight/config/autoload"
 	"log"
 	"os"
 	"path/filepath"
@@ -21,7 +21,7 @@ type Config struct {
 }
 
 // LoadConfig loads application configuration from a file and returns a populated Config.
-// 
+//
 // LoadConfig looks for a YAML file named `config.yaml` inside a `config` subdirectory of
 // the current working directory (i.e. `<workDir>/config/config.yaml`). It uses Viper to
 // read and unmarshal the file into a Config value and returns a pointer to that value.
