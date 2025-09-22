@@ -1,6 +1,7 @@
 package autoload
 
 type LoggerConfig struct {
+	FileName        string       `mapstructure:"file_name"`
 	DefaultDivision string       `mapstructure:"default_division"`
 	DivisionTime    DivisionTime `mapstructure:"division_time"`
 	DivisionSize    DivisionSize `mapstructure:"division_size"`
@@ -12,8 +13,8 @@ type DivisionTime struct {
 }
 
 type DivisionSize struct {
-	MaxSize    int64 `mapstructure:"max_size"`
-	MaxBackups int64 `mapstructure:"max_backups"`
-	MaxAge     int64 `mapstructure:"max_age"`
-	Compress   bool  `mapstructure:"compress"`
+	MaxSize    int  `mapstructure:"max_size"`
+	MaxBackups int  `mapstructure:"max_backups"`
+	MaxAge     int  `mapstructure:"max_age"`
+	Compress   bool `mapstructure:"compress"`
 }
