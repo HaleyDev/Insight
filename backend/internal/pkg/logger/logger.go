@@ -1,8 +1,6 @@
 package logger
 
 import (
-	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
-	"github.com/natefinch/lumberjack/v2"
 	"insight/config"
 	"io"
 	"os"
@@ -10,8 +8,12 @@ import (
 	"sync"
 	"time"
 
+	rotatelogs "github.com/lestrrat-go/file-rotatelogs"
+	"gopkg.in/natefinch/lumberjack.v2"
+
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"go.uber.org/zap/zaptest/observer"
 )
 
 var Logger *zap.Logger
@@ -43,7 +45,7 @@ func createZapLog() *zap.Logger {
 	if err != nil {
 		panic("Failed to get working directory: " + err.Error())
 	}
-	filename := filepath.Join(baseFile, "/logs", time.Now().Format("2006-01-02")+".log")
+	filename := filepath.Join(baseFile, "/logs", Config.Logger.FileName)
 	var writer zapcore.WriteSyncer
 	if Config.Logger.DefaultDivision == "size" {
 		// 按文件大小切割日志
@@ -76,11 +78,16 @@ func getRotateWriter(filename string, config config.Config) io.Writer {
 // getLumberJackWriter 按文件切割日志
 func getLumberJackWriter(filename string, config config.Config) io.Writer {
 	// 日志切割配置
-	return &lumberjac.Logger{
+	return &lumberjack.Logger{
 		Filename:   filename,                              // 日志文件位置
 		MaxSize:    config.Logger.DivisionSize.MaxSize,    // 在进行切割之前，日志文件的最大大小（以MB为单位）
 		MaxBackups: config.Logger.DivisionSize.MaxBackups, // 保留旧文件的最大个数
 		MaxAge:     config.Logger.DivisionSize.MaxAge,     // 保留旧文件的最大天数
 		Compress:   config.Logger.DivisionSize.Compress,   // 是否压缩/归档旧文件
 	}
+}
+
+func createInMemoryLogCore() (*zap.Logger, *observer.ObservedLogs) {
+	core, logs := observer.New(zapcore.InfoLevel)
+	return zap.New(core), logs
 }
