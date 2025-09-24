@@ -33,3 +33,4 @@ agent/src/logs/*
 agent/src/agent/agent_factory/__pycache__/enhanced_executor.cpython-313.pyc
 agent/src/agent/llms/__pycache__/__init__.cpython-313.pyc
 agent/src/agent/llms/__pycache__/llms.cpython-313.pyc
+backend/logs/app.log

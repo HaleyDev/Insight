@@ -1,4 +1,4 @@
-package hello
+package demo
 
 import (
 	"insight/internal/controller"
@@ -10,25 +10,32 @@ import (
 	"go.uber.org/zap"
 )
 
-type HelloController struct {
+type DemoController struct {
 	controller.Api
 }
 
-func NewHelloController() *HelloController {
-	return &HelloController{}
+func NewDemoController() *DemoController {
+	return &DemoController{}
 }
 
-func (api HelloController) HelloGin(c *gin.Context) {
+func (api DemoController) Demo(c *gin.Context) {
 	start := time.Now()
-	log.Logger.Info("Processing Hello request",
+
+	log.Logger.Info("Processing Demo request",
 		zap.String("method", c.Request.Method),
 		zap.String("path", c.Request.URL.Path),
 		zap.String("client_ip", c.ClientIP()),
 	)
 
-	result, err := service.NewHelloService().Hello()
+	path := c.Query("path")
+
+	log.Logger.Info("Received path parameter",
+		zap.String("path", path),
+	)
+
+	result, err := service.NewDemoService().Demo(path)
 	if err != nil {
-		log.Logger.Error("Hello service call failed",
+		log.Logger.Error("Demo service call failed",
 			zap.Error(err),
 			zap.String("method", c.Request.Method),
 			zap.String("path", c.Request.URL.Path),
@@ -38,7 +45,7 @@ func (api HelloController) HelloGin(c *gin.Context) {
 	}
 
 	duration := time.Since(start)
-	log.Logger.Info("Hello request processed successfully",
+	log.Logger.Info("Demo request processed successfully",
 		zap.String("method", c.Request.Method),
 		zap.String("path", c.Request.URL.Path),
 		zap.Duration("duration", duration),
