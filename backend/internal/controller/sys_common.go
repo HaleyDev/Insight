@@ -15,7 +15,7 @@ type Api struct {
 // Success 业务成功响应
 func (api *Api) Success(c *gin.Context, data ...any) {
 	response := r.Resp()
-	if data == nil {
+	if len(data) > 0 {
 		response.WithDataSuccess(c, data[0])
 		return
 	}
@@ -25,7 +25,7 @@ func (api *Api) Success(c *gin.Context, data ...any) {
 // FailCode 业务失败响应
 func (api *Api) FailCode(c *gin.Context, code int, data ...any) {
 	response := r.Resp()
-	if data == nil {
+	if len(data) > 0 {
 		response.WithData(data[0]).FailCode(c, code)
 		return
 	}

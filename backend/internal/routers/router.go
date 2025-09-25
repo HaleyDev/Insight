@@ -15,4 +15,5 @@ func SetupRouter(router *gin.Engine) {
 	Controllers := setup.NewControllers()
 	api := router.Group("/api")
 	groups.HelloRouters(api, *Controllers)
+	groups.DemoRouters(api, *Controllers)
 }

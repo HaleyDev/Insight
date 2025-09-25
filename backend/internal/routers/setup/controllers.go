@@ -1,9 +1,13 @@
 package setup
 
-import "insight/internal/controller/hello"
+import (
+	"insight/internal/controller/demo"
+	"insight/internal/controller/hello"
+)
 
 type Controllers struct {
 	HelloController hello.HelloController
+	DemoController  demo.DemoController
 }
 
 // NewControllers creates and returns a Controllers instance with its HelloController
@@ -14,7 +18,9 @@ type Controllers struct {
 func NewControllers() *Controllers {
 
 	HelloController := hello.NewHelloController()
+	DemoController := demo.NewDemoController()
 	return &Controllers{
 		HelloController: *HelloController,
+		DemoController:  *DemoController,
 	}
 }
