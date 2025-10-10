@@ -4,7 +4,10 @@ import (
 	"errors"
 	"insight/config"
 	"strings"
+	"time"
 
+	"insight/internal/global"
+	"insight/internal/model"
 	e "insight/internal/pkg/errors"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -72,4 +75,20 @@ func GetAccessToken(authorization string) (accessToken string, err error) {
 type AdminCustomClaims struct {
 	AdminUserInfo
 	jwt.RegisteredClaims
+}
+
+// NewAdminCustomClaims 初始化AdminCustomClaims
+func NewAdminCustomClaims(user *model.AdminUser, expiresAt time.Time) AdminCustomClaims {
+	return AdminCustomClaims{
+		AdminUserInfo: AdminUserInfo{
+			user.ID,
+			user.Email,
+			user.NickName,
+		},
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(expiresAt), // 过期时间
+			Issuer:    global.Issuer,                 // 签发人
+			Subject:   global.Subject,                // 发签主体
+		},
+	}
 }

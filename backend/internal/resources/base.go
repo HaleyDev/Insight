@@ -22,3 +22,16 @@ func (p *Paginate) calculateLastPage() {
 
 	p.LastPage = int(math.Ceil(float64(p.Total) / float64(p.PerPage)))
 }
+
+type Collection struct {
+	Paginate
+	Data []any
+}
+
+func newResponseCollection(paginate Paginate, data []any) *Collection {
+	paginate.calculateLastPage()
+	return &Collection{
+		Paginate: paginate,
+		Data:     data,
+	}
+}
