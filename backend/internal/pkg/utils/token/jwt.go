@@ -15,7 +15,7 @@ import (
 
 type AdminUserInfo struct {
 	UserID   uint   `json:"user_id"`
-	Email    string `json:"email"`
+	Mobile   string `json:"mobile"`
 	Nickname string `json:"nickname"`
 }
 
