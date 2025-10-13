@@ -41,7 +41,7 @@ func AdminAuthHandler() gin.HandlerFunc {
 			diff := exp.Time.Sub(now)
 			refreshTTL := cfg.GetConfig().Jwt.RefreshTTL * time.Second
 			if diff < refreshTTL {
-				tokenResponse, _ := token
+				tokenResponse, _ := admin_auth.
 
 			}
 
