@@ -3,6 +3,7 @@ package admin
 import (
 	"insight/internal/controller"
 	"insight/internal/service/admin_auth"
+	"insight/internal/validator/form"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,5 +27,9 @@ func (api *AdminUserController) GetUserInfo(c *gin.Context) {
 }
 
 func (api *AdminUserController) Add(c *gin.Context) {
+	// 初始化参数结构
+	IDForm := form.NewIDForm()
 
+	// 绑定参数并使用验证器验证参数
+	if err := 
 }
