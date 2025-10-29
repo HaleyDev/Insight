@@ -19,6 +19,7 @@ func NewControllers() *Controllers {
 
 	HelloController := hello.NewHelloController()
 	DemoController := demo.NewDemoController()
+
 	return &Controllers{
 		HelloController: *HelloController,
 		DemoController:  *DemoController,
