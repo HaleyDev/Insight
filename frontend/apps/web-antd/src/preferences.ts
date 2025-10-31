@@ -10,4 +10,9 @@ export const overridesPreferences = defineOverridesPreferences({
   app: {
     name: import.meta.env.VITE_APP_TITLE,
   },
+  logo: {
+    source: '/logo.png',
+    fit: 'contain',
+    enable: true,
+  },
 });
