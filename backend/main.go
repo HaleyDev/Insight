@@ -1,10 +1,8 @@
 package main
 
-import (
-	"insight/cmd/server"
-)
+import "insight/cmd"
 
 // main is the program entry point. It delegates initialization and execution of the application server to server.RunServer().
 func main() {
-	server.RunServer()
+	cmd.Execute()
 }
