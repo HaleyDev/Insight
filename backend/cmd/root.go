@@ -2,14 +2,17 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
+	"insight/cmd/admin"
 	"insight/cmd/command"
 	corn "insight/cmd/cron"
+	"insight/cmd/migrate"
 	"insight/cmd/server"
 	"insight/cmd/version"
 	"insight/internal/global"
 	log "insight/internal/pkg/logger"
 	"os"
+
+	"github.com/spf13/cobra"
 )
 
 var (
@@ -39,6 +42,8 @@ func init() {
 	rootCmd.AddCommand(server.Cmd)
 	rootCmd.AddCommand(command.Cmd)
 	rootCmd.AddCommand(corn.Cmd)
+	rootCmd.AddCommand(migrate.Cmd)
+	rootCmd.AddCommand(admin.Cmd)
 }
 
 func Execute() {
