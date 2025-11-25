@@ -22,7 +22,7 @@ func (t FormatDate) MarshalJSON() ([]byte, error) {
 	return []byte(fmt.Sprintf("\"%s\"", t.Format(timeFormat))), nil
 }
 
-func (t *FormatDate) Value() (driver.Value, error) {
+func (t FormatDate) Value() (driver.Value, error) {
 	var zeroTime time.Time
 	if t.Time.UnixNano() == zeroTime.UnixNano() {
 		return nil, nil
