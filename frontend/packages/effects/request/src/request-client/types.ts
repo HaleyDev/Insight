@@ -74,7 +74,7 @@ interface HttpResponse<T = any> {
    */
   code: number;
   data: T;
-  message: string;
+  msg: string;  // 改为 msg，与后端保持一致
 }
 
 export type {

@@ -10,7 +10,7 @@ export default eventHandler(async (event) => {
   const data = `
   {
     "code": 0,
-    "message": "success",
+    "msg": "success",
     "data": [
               {
                 "id": 123456789012345678901234567890123456789012345678901234567890,

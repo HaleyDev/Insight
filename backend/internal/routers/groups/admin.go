@@ -14,6 +14,7 @@ func AdminRouters(router *gin.RouterGroup, controller setup.Controllers) {
 	{
 		userGroup.POST("/", controller.UserController.Add)
 		userGroup.DELETE("/", controller.UserController.Delete)
+		userGroup.GET("/info", controller.UserController.GetUserInfo)
 	}
 
 	// Login routes

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	cfg "insight/config"
 	"insight/internal/global"
 	e "insight/internal/pkg/errors"
@@ -17,6 +18,7 @@ import (
 func AdminAuthHandler() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authorization := c.GetHeader("Authorization")
+		fmt.Println("authorization is:" + authorization)
 		accessToken, err := token.GetAccessToken(authorization)
 		if err != nil {
 			response.Fail(c, e.NotLogin, "获取AccessToken失败")
