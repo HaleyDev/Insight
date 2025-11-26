@@ -17,6 +17,7 @@ type AdminUserInfo struct {
 	UserID   uint   `json:"user_id"`
 	Mobile   string `json:"mobile"`
 	Nickname string `json:"nickname"`
+	Email    string `json:"email"`
 }
 
 func GenerateUserInfo(info any) (adminUserInfo AdminUserInfo) {
@@ -81,9 +82,10 @@ type AdminCustomClaims struct {
 func NewAdminCustomClaims(user *model.AdminUser, expiresAt time.Time) AdminCustomClaims {
 	return AdminCustomClaims{
 		AdminUserInfo: AdminUserInfo{
-			user.ID,
-			user.Email,
-			user.NickName,
+			UserID:   user.ID,
+			Mobile:   user.Mobile,
+			Nickname: user.NickName,
+			Email:    user.Email,
 		},
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expiresAt), // 过期时间

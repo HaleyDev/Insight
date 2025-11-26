@@ -6,6 +6,8 @@ import (
 	e "insight/internal/pkg/errors"
 	"insight/internal/pkg/response"
 	"insight/internal/pkg/utils/token"
+	"insight/internal/service/admin_auth"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -41,7 +43,9 @@ func AdminAuthHandler() gin.HandlerFunc {
 			diff := exp.Time.Sub(now)
 			refreshTTL := cfg.GetConfig().Jwt.RefreshTTL * time.Second
 			if diff < refreshTTL {
-				tokenResponse, _ := admin_auth.
+				tokenResponse, _ := admin_auth.NewLoginService().Refresh(adminCustomClaims.UserID)
+				c.Writer.Header().Set("refresh-access-token", tokenResponse.AccessToken)
+				c.Writer.Header().Set("refresh-exp", strconv.FormatInt(tokenResponse.ExpiresAt, 10))
 
 			}
 

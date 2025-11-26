@@ -2,12 +2,14 @@ package server
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
 	"insight/config"
 	"insight/data"
+	"insight/internal/middleware"
 	log "insight/internal/pkg/logger"
 	"insight/internal/routers"
 	"insight/internal/validator"
+
+	"github.com/spf13/cobra"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -33,6 +35,9 @@ var (
 
 func run() error {
 	r := gin.Default()
+
+	// 配置CORS中间件
+	r.Use(middleware.CorsHandler())
 
 	config := config.GetConfig()
 	routers.SetupRouter(r)
