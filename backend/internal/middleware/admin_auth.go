@@ -53,7 +53,7 @@ func AdminAuthHandler() gin.HandlerFunc {
 
 			c.Set("uid", adminCustomClaims.UserID)
 			c.Set("mobile", adminCustomClaims.Mobile)
-			c.Set("nickname", adminCustomClaims.Nickname)
+			c.Set("user", adminCustomClaims.Nickname)
 			c.Set("email", adminCustomClaims.Email)
 			c.Next()
 

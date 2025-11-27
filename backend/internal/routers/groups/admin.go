@@ -1,6 +1,7 @@
 package groups
 
 import (
+	"insight/internal/middleware"
 	"insight/internal/routers/setup"
 
 	"github.com/gin-gonic/gin"
@@ -11,6 +12,7 @@ func AdminRouters(router *gin.RouterGroup, controller setup.Controllers) {
 
 	// User management routes
 	userGroup := adminGroup.Group("/users")
+	userGroup.Use(middleware.AdminAuthHandler())
 	{
 		userGroup.POST("/", controller.UserController.Add)
 		userGroup.DELETE("/", controller.UserController.Delete)

@@ -21,7 +21,7 @@ func (s *AdminUserService) GetUserInfo(id uint) (*resources.AdminUserResources, 
 	// 查询用户是否存在
 	adminUsersModel := model.NewAdminUsers()
 	user := adminUsersModel.GetUserById(id)
-	if user == nil {
+	if user != nil {
 		return resources.NewAdminUserResources(user), nil
 	}
 	return nil, errors.NewBusinessError(errors.FAILURE, "获取用户信息失败")
