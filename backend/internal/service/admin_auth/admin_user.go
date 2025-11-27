@@ -22,7 +22,7 @@ func (s *AdminUserService) GetUserInfo(id uint) (*resources.AdminUserResources, 
 	adminUsersModel := model.NewAdminUsers()
 	user := adminUsersModel.GetUserById(id)
 	if user != nil {
-		return resources.NewAdminUserResources(user), nil
+		return resources.NewAdminUserResources(*user), nil
 	}
 	return nil, errors.NewBusinessError(errors.FAILURE, "获取用户信息失败")
 }

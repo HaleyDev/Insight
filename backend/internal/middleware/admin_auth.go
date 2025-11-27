@@ -55,6 +55,7 @@ func AdminAuthHandler() gin.HandlerFunc {
 			c.Set("mobile", adminCustomClaims.Mobile)
 			c.Set("user", adminCustomClaims.Nickname)
 			c.Set("email", adminCustomClaims.Email)
+			c.Set("accession", accessToken)
 			c.Next()
 
 		}
