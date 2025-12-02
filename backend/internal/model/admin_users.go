@@ -1,17 +1,21 @@
 package model
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	"golang.org/x/crypto/bcrypt"
+	"gorm.io/datatypes"
+)
 
 type AdminUser struct {
 	ContainsDeleteBaseModel
-	IsAdmin  int8   `json:is_admin` // 是否是管理员
-	NickName string `json:nickname` // 昵称
-	Username string `json:username` // 用户名
-	Password string `json:password` // 密码
-	Email    string `json:email`    // 邮箱
-	Mobile   string `json:mobile`   // 手机号
-	Avatar   string `json:avatar`   // 头像
-	Status   int8   `json:status`   // 状态
+	IsAdmin  int8           `json:"is_admin"` // 是否是管理员
+	NickName string         `json:"nickname"` // 昵称
+	Username string         `json:"username"` // 用户名
+	Password string         `json:"password"` // 密码
+	Email    string         `json:"email"`    // 邮箱
+	Mobile   string         `json:"mobile"`   // 手机号
+	Roles    datatypes.JSON `json:"roles"`    // 角色
+	Avatar   string         `json:"avatar"`   // 头像
+	Status   int8           `json:"status"`   // 状态
 }
 
 func NewAdminUsers() *AdminUser {
