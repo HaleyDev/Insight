@@ -1,6 +1,7 @@
 package admin_auth
 
 import (
+	"encoding/json"
 	"insight/internal/model"
 	"insight/internal/pkg/errors"
 	"insight/internal/resources"
@@ -21,8 +22,14 @@ func (s *AdminUserService) GetUserInfo(id uint) (*resources.AdminUserResources, 
 	// 查询用户是否存在
 	adminUsersModel := model.NewAdminUsers()
 	user := adminUsersModel.GetUserById(id)
-	if user == nil {
-		return resources.NewAdminUserResources(user), nil
+	if user != nil {
+		result := resources.NewAdminUserResources(*user)
+		var roles []string
+		if err := json.Unmarshal(user.Roles, &roles); err != nil {
+			return nil, errors.NewBusinessError(errors.FAILURE, "获取用户信息失败")
+		}
+		result.SetRoles(roles)
+		return result, nil
 	}
 	return nil, errors.NewBusinessError(errors.FAILURE, "获取用户信息失败")
 }

@@ -35,7 +35,7 @@ func (api *Api) FailCode(c *gin.Context, code int, data ...any) {
 // Fail 业务失败响应
 func (api *Api) Fail(c *gin.Context, code int, message string, data ...any) {
 	response := r.Resp()
-	if data == nil {
+	if len(data) > 0 {
 		response.WithData(data[0]).FailCode(c, code, message)
 		return
 	}

@@ -7,7 +7,7 @@ export function useResponseSuccess<T = any>(data: T) {
     code: 0,
     data,
     error: null,
-    message: 'ok',
+    msg: 'ok',
   };
 }
 
@@ -15,7 +15,7 @@ export function usePageResponseSuccess<T = any>(
   page: number | string,
   pageSize: number | string,
   list: T[],
-  { message = 'ok' } = {},
+  { msg = 'ok' } = {},
 ) {
   const pageData = pagination(
     Number.parseInt(`${page}`),
@@ -28,25 +28,25 @@ export function usePageResponseSuccess<T = any>(
       items: pageData,
       total: list.length,
     }),
-    message,
+    msg,
   };
 }
 
-export function useResponseError(message: string, error: any = null) {
+export function useResponseError(msg: string, error: any = null) {
   return {
     code: -1,
     data: null,
     error,
-    message,
+    msg,
   };
 }
 
 export function forbiddenResponse(
   event: H3Event<EventHandlerRequest>,
-  message = 'Forbidden Exception',
+  msg = 'Forbidden Exception',
 ) {
   setResponseStatus(event, 403);
-  return useResponseError(message, message);
+  return useResponseError(msg, msg);
 }
 
 export function unAuthorizedResponse(event: H3Event<EventHandlerRequest>) {

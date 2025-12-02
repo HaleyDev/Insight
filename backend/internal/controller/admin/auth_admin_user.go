@@ -18,7 +18,9 @@ func NewAdminUserController() *AdminUserController {
 }
 
 func (api *AdminUserController) GetUserInfo(c *gin.Context) {
-	result, err := admin_auth.NewAdminUserService().GetUserInfo(c.GetUint("a_uid"))
+	result, err := admin_auth.NewAdminUserService().GetUserInfo(c.GetUint("uid"))
+	accesstoken := c.GetString("accession")
+	result.SetToken(accesstoken)
 	if err != nil {
 		api.Err(c, err)
 		return
