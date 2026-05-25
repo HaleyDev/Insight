@@ -1,0 +1,71 @@
+# yaml 配置
+# 官方文档：https://docs.docker.com/compose/compose-file/
+version: "3.7"
+
+services:
+  app:
+    container_name: app_container
+    build: .
+    restart: on-failure
+    depends_on:
+      - db
+      - redis
+    links:
+      - db
+      - redis
+    ports:
+      - "8080:8080"
+    environment:
+      APP_ENV: docker
+    networks:
+      - eagle
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]   # 用于健康检查的指令
+      interval: 1m30s   # 间隔时间
+      timeout: 10s  # 超时时间
+      retries: 3    # 重试次数
+      start_period: 40s # 启动多久后开始检查
+
+  db:
+    container_name: postgres_container
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: insight
+      TZ: Asia/Shanghai
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d insight"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    stdin_open: true
+    tty: true
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./deploy/docker/postgres/:/docker-entrypoint-initdb.d/
+    networks:
+      - eagle
+
+  redis:
+    container_name: redis_container
+    image: redis:6.0.9-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - eagle
+    volumes:
+      - redis_data:/var/lib/redis
+
+networks:
+  eagle:
+    driver: "bridge"
+
+volumes:
+  postgres_data:
+  redis_data:

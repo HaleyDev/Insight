@@ -1,0 +1,118 @@
+app:
+  Name: insight
+  Version: 1.0.0
+  PprofPort: :5555
+  Mode: debug                 # debug, release, test
+  JwtSecret: JWT_SECRET
+  JwtTimeout: 86400
+  CookieName: jwt-token
+  SSL: true
+  CtxDefaultTimeout: 12
+  CSRF: true
+  Debug: false
+
+Http:
+  Addr: :8080
+  ReadTimeout: 3s
+  WriteTimeout: 3s
+Grpc:
+  Addr: :9090
+  ReadTimeout: 5s
+  WriteTimeout: 5s
+
+logger:
+  Development: false
+  DisableCaller: false
+  DisableStacktrace: false
+  Encoding: json                          # json or console
+  Level: info                             # 日志级别，INFO, WARN, ERROR
+  Name: insight
+  Writers: console                        # 有2个可选项：file,console 选择file会将日志记录到logger_file指定的日志文件中，选择console会将日志输出到标准输出，当然也可以两者同时选择
+  LoggerFile: /tmp/log/insight.log
+  LoggerWarnFile: /tmp/log/insight.wf.log
+  LoggerErrorFile: /tmp/log/insight.err.log
+  LogRollingPolicy: daily
+  LogRotateDate: 1
+  LogRotateSize: 1
+  LogBackupCount: 7
+
+orm:
+  Name: insight                   # 数据库名称
+  Addr: 192.168.18.123:5432       # 远程 postgres 实例地址
+  UserName: insight
+  Password: "Ins!ght@2026#K9xQ7vP3mZ"
+  ShowLog: true                   # 是否打印所有SQL日志
+  MaxIdleConn: 10                 # 最大闲置的连接数，0意味着使用默认的大小2， 小于0表示不使用连接池
+  MaxOpenConn: 60                 # 最大打开的连接数, 需要小于数据库配置中的max_connections数
+  ConnMaxLifeTime: 4h             # 单个连接最大存活时间
+  SlowThreshold: 0                # 慢查询阈值，设置后只打印慢查询日志，默认为500ms
+
+postgres:
+  Dsn: "postgres://insight:Ins%21ght%402026%23K9xQ7vP3mZ@192.168.18.123:5432/insight?sslmode=disable&connect_timeout=3&statement_timeout=3000"
+  ShowLog: true                   # 是否打印SQL日志
+  MaxIdleConn: 10
+  MaxOpenConn: 60
+  ConnMaxLifeTime: 4000
+  QueryTimeout: 200
+  ExecTimeout: 200
+  TranTimeout: 200
+  Braker:                         # 熔断器配置
+    window: 3s
+    sleep: 100ms
+    bucket: 100
+    ratio: 0.5
+    request: 100
+
+
+redis:
+  Addr: 192.168.18.123:6379
+  Password: "Ins!ght@2026#K9xQ7vP3mZ"
+  DB: 0
+  MinIdleConn: 200
+  DialTimeout: 60s
+  ReadTimeout: 500ms
+  WriteTimeout: 500ms
+  PoolSize: 100
+  PoolTimeout: 240s
+  IsTrace: true
+
+email:
+  Host: SMTP_HOST       # SMTP地址
+  Port: 25              # 端口
+  Username: USER        # 用户名
+  Password: PASSWORD    # 密码
+  Name: insight         # 发送者名称
+  Address: SEND_EMAIL   # 发送者邮箱
+  ReplyTo: EMAIL       # 回复地址
+  KeepAlive: 30         # 连接保持时长
+
+web:
+  Name: insight
+  Domain: http://insight.com
+  Secret: abcdefg
+  Static: /data/static
+
+cookie:
+  Name: jwt-token
+  MaxAge: 86400
+  Secure: false
+  HttpOnly: true
+  Domain: http://insight.com
+  Secret: abcdefg
+
+qiniu:
+  AccessKey: ACCESS_KEY
+  SecretKey: SECRET_KEY
+  CdnURL: http://cdn.insight.com
+  SignatureID: signature_id  # 短信签名id
+  TemplateID: template_id    # 模板id
+
+metrics:
+  Url: 0.0.0.0:7070
+  ServiceName: api
+
+MongoDB:
+  URI: "mongodb://localhost:27017"
+  User: "admin"
+  Password: "admin"
+  DB: "insight"

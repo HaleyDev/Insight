@@ -1,0 +1,30 @@
+default:
+  Driver: postgres # 驱动名称，目前支持 mysql，postgres，默认: mysql
+  Name: insight # 数据库名称
+  Addr: 192.168.18.123:5432 # 远程 postgres 实例地址
+  UserName: insight
+  Password: "Ins%21ght%402026%23K9xQ7vP3mZ" # URL-encoded（原始密码: Ins!ght@2026#K9xQ7vP3mZ）
+  ShowLog: true # 是否打印所有SQL日志
+  MaxIdleConn: 10 # 最大闲置的连接数，0意味着使用默认的大小2， 小于0表示不使用连接池
+  MaxOpenConn: 60 # 最大打开的连接数, 需要小于数据库配置中的max_connections数
+  Timeout: 3 # PostgreSQL 连接超时时间, 单位秒(无单位)
+  ReadTimeout: 3000 # 语句执行超时时间, 单位ms (3000 = 3s)
+  WriteTimeout: 3s # PostgreSQL 不使用该字段
+  ConnMaxLifeTime: 4h # 单个连接最大存活时间，建议设置比数据库超时时长稍小一些
+  SlowThreshold: 500ms # 慢查询阈值，设置后只打印慢查询日志，默认为200ms
+  EnableTrace: false
+user:
+  Driver: postgres
+  Name: insight
+  Addr: 192.168.18.123:5432
+  UserName: insight
+  Password: "Ins%21ght%402026%23K9xQ7vP3mZ"
+  ShowLog: true
+  MaxIdleConn: 10
+  MaxOpenConn: 60
+  Timeout: 3
+  ReadTimeout: 3000
+  WriteTimeout: 3s
+  ConnMaxLifeTime: 4h
+  SlowThreshold: 500ms
+  EnableTrace: false

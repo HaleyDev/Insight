@@ -1,0 +1,23 @@
+test-demo:
+  Uri: "amqp://insight:Ins%21ght%402026%23K9xQ7vP3mZ@192.168.18.123:5672/insight" # 远程 rabbitmq, vhost=insight，密码中 !@# 已 URL 编码
+  AutoDeclare: true
+  Timeout: 5s
+  Exchange:
+    Name: local-test-exchange
+    Kind: direct
+    Durable: true
+    AutoDelete: false
+    Internal: false
+    NoWait: false
+    Args: {}
+  Queue:
+    name: local-test-queue
+    durable: true
+    AutoDelete: false
+    Exclusive: false
+    NoWait: false
+    Args: {}
+  Bind:
+    RoutingKey: local-test-routing-key
+    NoWait: false
+    Args: {}
