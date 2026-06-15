@@ -9,40 +9,34 @@ import (
 	"github.com/insight/backend/pkg/log"
 )
 
-// Register 注册
+// Register 用户注册
 // @Summary 注册
-// @Description 用户注册
+// @Description 用户注册，新建账户默认角色 user，使用默认头像
 // @Tags 用户
+// @Accept  json
 // @Produce  json
 // @Param req body RegisterRequest true "请求参数"
-// @Success 200 {object} model.UserInfo "用户信息"
-// @Router /Register [post]
+// @Success 200 {object} app.Response
+// @Router /register [post]
 func Register(c *gin.Context) {
-	// Binding the data with the u struct.
 	var req RegisterRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		log.Warnf("register bind param err: %v", err)
+		log.Warnf("register bind err: %v", err)
 		response.Error(c, errcode.ErrInvalidParam)
 		return
 	}
 
-	log.Infof("register req: %#v", req)
-	// check param
 	if req.Username == "" || req.Email == "" || req.Password == "" {
-		log.Warnf("params is empty: %v", req)
 		response.Error(c, errcode.ErrInvalidParam)
 		return
 	}
 
-	// 两次密码是否正确
 	if req.Password != req.ConfirmPassword {
-		log.Warnf("twice password is not same")
 		response.Error(c, ecode.ErrTwicePasswordNotMatch)
 		return
 	}
 
-	err := service.Svc.Users().Register(c, req.Username, req.Email, req.Password)
-	if err != nil {
+	if err := service.Svc.Users().Register(c.Request.Context(), req.Username, req.Email, req.Password); err != nil {
 		log.Warnf("register err: %v", err)
 		response.Error(c, ecode.ErrRegisterFailed.WithDetails(err.Error()))
 		return

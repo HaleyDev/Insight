@@ -46,16 +46,17 @@ http.interceptors.request.use(
 )
 
 // 响应拦截器：解包业务结构 + 401 跳登录
+// 注意：成功时直接返回 body.data，调用方 `await http.post()` 直接拿到业务数据
 http.interceptors.response.use(
   (response: AxiosResponse<ApiResponse>) => {
     const body = response.data
 
     // 兼容直接返回非标准结构（例如静态资源、二进制流）
     if (body == null || typeof body !== 'object' || !('code' in body))
-      return response
+      return response.data as unknown as AxiosResponse
 
     if (body.code === 0)
-      return { ...response, data: body.data } as AxiosResponse
+      return body.data as unknown as AxiosResponse
 
     // 业务错误：rejection 给上层
     return Promise.reject(Object.assign(new Error(body.message || '请求失败'), {

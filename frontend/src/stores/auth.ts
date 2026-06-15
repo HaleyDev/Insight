@@ -24,8 +24,8 @@ interface RegisterPayload {
 }
 
 interface LoginResponseData {
-  Token?: string
   token?: string
+  user?: UserInfo
 }
 
 const USER_KEY = 'insight_user'
@@ -73,22 +73,28 @@ export const useAuthStore = defineStore('auth', {
      */
     async login(payload: LoginPayload): Promise<void> {
       const data = await http.post<unknown, LoginResponseData>('/login', payload)
-      const token = data?.Token || data?.token
+      const token = data?.token
       if (!token)
         throw new Error('登录失败：未获取到 Token')
 
       this.token = token
       setToken(token)
 
-      // 可选：登录后拉取用户信息
-      await this.fetchProfile().catch(() => undefined)
+      // 后端登录直接返回了用户信息，优先使用
+      if (data.user) {
+        this.user = data.user
+        saveUser(data.user)
+      }
+      else {
+        await this.fetchProfile().catch(() => undefined)
+      }
     },
 
     /**
      * 用户注册：POST /api/v1/Register
      */
     async register(payload: RegisterPayload): Promise<void> {
-      await http.post('/Register', payload)
+      await http.post('/register', payload)
     },
 
     /**
