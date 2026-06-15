@@ -1,45 +1,50 @@
 package user
 
 import (
-	"context"
-
-	"github.com/insight/backend/internal/service"
-
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 
+	"github.com/insight/backend/internal/service"
 	"github.com/insight/backend/pkg/errcode"
 	"github.com/insight/backend/pkg/log"
 )
 
-// Update 更新用户信息
-// @Summary Update a user info by the user identifier
-// @Description Update a user by ID
+// Update 更新用户信息（仅头像和用户名）
+// @Summary 更新用户信息
 // @Tags 用户
 // @Accept  json
 // @Produce  json
-// @Param id path uint64 true "The user's database id index num"
-// @Param user body model.UserBaseModel true "The user info"
-// @Success 200 {object} app.Response "{"code":0,"message":"OK","data":null}"
+// @Param id path int true "用户 id"
+// @Param req body UpdateRequest true "更新字段"
+// @Success 200 {object} app.Response
 // @Router /users/{id} [put]
 func Update(c *gin.Context) {
-	// Get the user id from the url parameter.
 	userID := cast.ToUint64(c.Param("id"))
-
-	// Binding the user data.
-	var req UpdateRequest
-	if err := c.Bind(&req); err != nil {
-		log.Warnf("bind request param err: %+v", err)
+	if userID == 0 {
 		response.Error(c, errcode.ErrInvalidParam)
 		return
 	}
-	log.Infof("user update req: %#v", req)
+
+	var req UpdateRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		log.Warnf("update bind err: %v", err)
+		response.Error(c, errcode.ErrInvalidParam)
+		return
+	}
 
 	userMap := make(map[string]interface{})
-	userMap["avatar"] = req.Avatar
-	userMap["sex"] = req.Sex
-	err := service.Svc.Users().UpdateUser(context.TODO(), userID, userMap)
-	if err != nil {
+	if req.Avatar != "" {
+		userMap["avatar"] = req.Avatar
+	}
+	if req.Username != "" {
+		userMap["username"] = req.Username
+	}
+	if len(userMap) == 0 {
+		response.Success(c, userID)
+		return
+	}
+
+	if err := service.Svc.Users().UpdateUser(c.Request.Context(), userID, userMap); err != nil {
 		log.Warnf("[user] update user err, %v", err)
 		response.Error(c, errcode.ErrInternalServer)
 		return

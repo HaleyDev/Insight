@@ -13,37 +13,30 @@ import (
 	"github.com/insight/backend/pkg/log"
 )
 
-// Get 获取用户信息
-// @Summary 通过用户id获取用户信息
-// @Description Get an user by user id
+// Get 通过用户 id 获取用户信息
+// @Summary 获取用户信息
 // @Tags 用户
-// @Accept  json
 // @Produce  json
-// @Param id path string true "用户id"
-// @Success 200 {object} model.UserInfo "用户信息"
-// @Router /users/:id [get]
+// @Param id path int true "用户 id"
+// @Success 200 {object} model.UserInfo
+// @Router /users/{id} [get]
 func Get(c *gin.Context) {
-	log.Info("Get function called.")
-
 	userID := cast.ToUint64(c.Param("id"))
 	if userID == 0 {
 		response.Error(c, errcode.ErrInvalidParam)
 		return
 	}
 
-	// Get the user by the `user_id` from the database.
-	u, err := service.Svc.Users().GetUserByID(c.Request.Context(), userID)
+	info, err := service.Svc.Users().GetUserInfoByID(c.Request.Context(), userID)
 	if errors.Is(err, repository.ErrNotFound) {
-		log.Errorf("get user info err: %+v", err)
 		response.Error(c, ecode.ErrUserNotFound)
 		return
 	}
 	if err != nil {
+		log.Errorf("get user info err: %+v", err)
 		response.Error(c, errcode.ErrInternalServer.WithDetails(err.Error()))
 		return
 	}
 
-	//time.Sleep(5 * time.Second)
-
-	response.Success(c, u)
+	response.Success(c, info)
 }
