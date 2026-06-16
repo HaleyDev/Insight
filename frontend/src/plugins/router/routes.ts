@@ -32,6 +32,11 @@ export const routes = [
         meta: { roles: ['admin'] },
       },
       {
+        path: 'admin/users',
+        component: () => import('@/pages/admin/users.vue'),
+        meta: { roles: ['admin'] },
+      },
+      {
         path: 'form-layouts',
         component: () => import('@/pages/form-layouts.vue'),
       },
@@ -51,10 +56,11 @@ export const routes = [
         component: () => import('@/pages/login.vue'),
         meta: { public: true },
       },
+      // 公开注册入口已关闭：路由仍保留，仅 admin 可访问（不删除页面代码，也不提供入口跳转）
       {
         path: 'register',
         component: () => import('@/pages/register.vue'),
-        meta: { public: true },
+        meta: { roles: ['admin'] },
       },
       {
         path: '/:pathMatch(.*)*',
