@@ -45,6 +45,17 @@ func (d *repository) UpdateUser(ctx context.Context, id uint64, userMap map[stri
 	return nil
 }
 
+// DeleteUser 删除用户
+func (d *repository) DeleteUser(ctx context.Context, id uint64) error {
+	if err := d.userCache.DelUserBaseCache(ctx, id); err != nil {
+		log.Warnf("[repo.user_base] delete user cache err: %v", err)
+	}
+	if err := d.orm.WithContext(ctx).Delete(&model.UserBaseModel{}, id).Error; err != nil {
+		return errors.Wrap(err, "[repo.user_base] delete user err")
+	}
+	return nil
+}
+
 // GetUser 根据 id 获取用户（Cache Aside Pattern）
 func (d *repository) GetUser(ctx context.Context, uid uint64) (userBase *model.UserBaseModel, err error) {
 	ctx, span := d.tracer.Start(ctx, "GetUser", oteltrace.WithAttributes(
@@ -120,4 +131,13 @@ func (d *repository) UserIsExist(user *model.UserBaseModel) (bool, error) {
 		return false, err
 	}
 	return true, nil
+}
+
+// ListUsers 获取所有用户（按创建时间倒序，仅供管理员使用）
+func (d *repository) ListUsers(ctx context.Context) ([]*model.UserBaseModel, error) {
+	var users []*model.UserBaseModel
+	if err := d.orm.WithContext(ctx).Order("created_at DESC").Find(&users).Error; err != nil {
+		return nil, errors.Wrap(err, "[repo.user_base] list users err")
+	}
+	return users, nil
 }

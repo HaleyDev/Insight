@@ -23,8 +23,10 @@ var _ Repository = (*repository)(nil)
 type Repository interface {
 	CreateUser(ctx context.Context, user *model.UserBaseModel) (id uint64, err error)
 	UpdateUser(ctx context.Context, id uint64, userMap map[string]interface{}) error
+	DeleteUser(ctx context.Context, id uint64) error
 	GetUser(ctx context.Context, id uint64) (*model.UserBaseModel, error)
 	GetUserByEmail(ctx context.Context, email string) (*model.UserBaseModel, error)
+	ListUsers(ctx context.Context) ([]*model.UserBaseModel, error)
 	UserIsExist(user *model.UserBaseModel) (bool, error)
 	Close()
 }
