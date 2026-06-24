@@ -146,7 +146,8 @@ const isPasswordVisible = ref(false)
               </VBtn>
             </VCol>
 
-            <!-- create account -->
+            <!-- create account: 公开注册入口已关闭，账号仅能由管理员从后台创建 -->
+            <!--
             <VCol
               cols="12"
               class="text-center text-base"
@@ -159,6 +160,7 @@ const isPasswordVisible = ref(false)
                 Create an account
               </RouterLink>
             </VCol>
+            -->
 
             <VCol
               cols="12"

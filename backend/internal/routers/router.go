@@ -59,7 +59,9 @@ func NewRouter() *gin.Engine {
 	apiV1 := g.Group("/v1")
 	{
 		// 公开接口
-		apiV1.POST("/register", user.Register)
+		// 公开注册入口已关闭（账号仅能由管理员从后台 /admin/users 创建）
+		// 保留 user.Register 实现以供 admin 路径复用
+		// apiV1.POST("/register", user.Register)
 		apiV1.POST("/login", user.Login)
 		apiV1.GET("/users/:id", user.Get)
 
@@ -69,6 +71,17 @@ func NewRouter() *gin.Engine {
 		{
 			authed.GET("/users/me", user.Me)
 			authed.PUT("/users/:id", user.Update)
+		}
+
+		// 管理员接口（仅 admin 角色可访问）
+		admin := apiV1.Group("/admin")
+		admin.Use(middleware.Auth(), mw.AdminOnly())
+		{
+			admin.GET("/users", user.List)
+			// 复用 user.Register 作为管理员创建账号的接口
+			admin.POST("/users", user.Register)
+			admin.PUT("/users/:id", user.AdminUpdate)
+			admin.DELETE("/users/:id", user.AdminDelete)
 		}
 	}
 

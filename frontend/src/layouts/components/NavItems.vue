@@ -2,6 +2,10 @@
 import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
 import VerticalNavGroup from '@layouts/components/VerticalNavGroup.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const auth = useAuthStore()
+const isAdmin = computed(() => auth.role === 'admin')
 </script>
 
 <template>
@@ -20,6 +24,28 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
     />
   </VerticalNavGroup>
 
+  <!-- 👉 Admin (仅管理员可见) -->
+  <template v-if="isAdmin">
+    <VerticalNavSectionTitle
+      :item="{
+        heading: 'Admin',
+      }"
+    />
+    <VerticalNavGroup
+      :item="{
+        title: 'Admin',
+        icon: 'ri-shield-user-line',
+      }"
+    >
+      <VerticalNavLink
+        :item="{
+          title: '用户管理',
+          to: '/admin/users',
+        }"
+      />
+    </VerticalNavGroup>
+  </template>
+
   <!-- 👉 Apps & Pages -->
   <VerticalNavSectionTitle
     :item="{
@@ -32,28 +58,6 @@ import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
       title: 'Account Settings',
       icon: 'ri-user-settings-line',
       to: '/account-settings',
-    }"
-  />
-
-  <VerticalNavLink
-    :item="{
-      title: 'Login',
-      icon: 'ri-login-box-line',
-      to: '/login',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Register',
-      icon: 'ri-user-add-line',
-      to: '/register',
-    }"
-  />
-  <VerticalNavLink
-    :item="{
-      title: 'Error',
-      icon: 'ri-information-line',
-      to: '/no-existence',
     }"
   />
 

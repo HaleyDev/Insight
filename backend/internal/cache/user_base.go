@@ -50,6 +50,10 @@ func (c *Cache) SetUserBaseCache(ctx context.Context, userID uint64, user *model
 	ctx, span := c.tracer.Start(ctx, "SetUserBaseCache")
 	defer span.End()
 
+	// redis 未初始化时降级为空操作，避免空指针 panic
+	if redis.RedisClient == nil {
+		return nil
+	}
 	if user == nil || user.ID == 0 {
 		return nil
 	}
@@ -65,6 +69,11 @@ func (c *Cache) SetUserBaseCache(ctx context.Context, userID uint64, user *model
 func (c *Cache) GetUserBaseCache(ctx context.Context, userID uint64) (data *model.UserBaseModel, err error) {
 	ctx, span := c.tracer.Start(ctx, "GetUserBaseCache")
 	defer span.End()
+
+	// redis 未初始化时返回未命中，让上层 repo.GetUser 走 DB 单飞
+	if redis.RedisClient == nil {
+		return nil, redis.ErrRedisNotFound
+	}
 
 	client := getCacheClient(ctx)
 
@@ -101,6 +110,10 @@ func (c *Cache) MultiGetUserBaseCache(ctx context.Context, userIDs []uint64) (ma
 func (c *Cache) DelUserBaseCache(ctx context.Context, userID uint64) error {
 	ctx, span := c.tracer.Start(ctx, "DelUserBaseCache")
 	defer span.End()
+	// redis 未初始化时降级为空操作
+	if redis.RedisClient == nil {
+		return nil
+	}
 	cacheKey := c.GetUserBaseCacheKey(userID)
 	err := c.cache.Del(ctx, cacheKey)
 	if err != nil {
@@ -113,6 +126,10 @@ func (c *Cache) DelUserBaseCache(ctx context.Context, userID uint64) error {
 func (c *Cache) SetCacheWithNotFound(ctx context.Context, userID uint64) error {
 	ctx, span := c.tracer.Start(ctx, "SetCacheWithNotFound")
 	defer span.End()
+	// redis 未初始化时降级为空操作
+	if redis.RedisClient == nil {
+		return nil
+	}
 	cacheKey := c.GetUserBaseCacheKey(userID)
 	err := c.cache.SetCacheWithNotFound(ctx, cacheKey)
 	if err != nil {

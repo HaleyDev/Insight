@@ -25,3 +25,11 @@ type UpdateRequest struct {
 	Avatar   string `json:"avatar"`
 	Username string `json:"username"`
 }
+
+// AdminUpdateRequest 管理员修改用户请求（除头像外的字段均可修改，空字符串表示不修改）
+type AdminUpdateRequest struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Role     string `json:"role"`
+}
