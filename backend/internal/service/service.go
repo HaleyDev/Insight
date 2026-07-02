@@ -10,6 +10,7 @@ var Svc Service
 // Service 业务服务汇总接口
 type Service interface {
 	Users() UserService
+	Stocks() StockService
 }
 
 type service struct {
@@ -24,3 +25,5 @@ func New(repo repository.Repository) Service {
 func (s *service) Users() UserService {
 	return newUsers(s)
 }
+
+func (s *service) Stocks() StockService { return newStocks(s) }

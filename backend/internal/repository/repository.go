@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
-
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
 	"gorm.io/gorm"
+	"time"
 
 	"github.com/insight/backend/internal/cache"
 	"github.com/insight/backend/internal/model"
@@ -28,6 +28,8 @@ type Repository interface {
 	GetUserByEmail(ctx context.Context, email string) (*model.UserBaseModel, error)
 	ListUsers(ctx context.Context) ([]*model.UserBaseModel, error)
 	UserIsExist(user *model.UserBaseModel) (bool, error)
+	ListStockData(context context.Context, startTime, endTime time.Time) ([]*model.BasicStockDataModel, error)
+	AddStockData(ctx context.Context, stockData *model.BasicStockDataModel) (id uint64, err error)
 	Close()
 }
 
