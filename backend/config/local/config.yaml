@@ -38,9 +38,9 @@ logger:
 
 orm:
   Name: insight                   # 数据库名称
-  Addr: 192.168.18.123:5432       # 远程 postgres 实例地址
-  UserName: insight
-  Password: "Ins!ght@2026#K9xQ7vP3mZ"
+  Addr: 127.0.0.1:5432            # 本地 docker postgres 实例地址
+  UserName: postgres
+  Password: "postgres"
   ShowLog: true                   # 是否打印所有SQL日志
   MaxIdleConn: 10                 # 最大闲置的连接数，0意味着使用默认的大小2， 小于0表示不使用连接池
   MaxOpenConn: 60                 # 最大打开的连接数, 需要小于数据库配置中的max_connections数
@@ -48,7 +48,7 @@ orm:
   SlowThreshold: 0                # 慢查询阈值，设置后只打印慢查询日志，默认为500ms
 
 postgres:
-  Dsn: "postgres://insight:Ins%21ght%402026%23K9xQ7vP3mZ@192.168.18.123:5432/insight?sslmode=disable&connect_timeout=3&statement_timeout=3000"
+  Dsn: "postgres://postgres:postgres@127.0.0.1:5432/insight?sslmode=disable&connect_timeout=3&statement_timeout=3000"
   ShowLog: true                   # 是否打印SQL日志
   MaxIdleConn: 10                 # 最大闲置的连接数，0意味着使用默认的大小2， 小于0表示不使用连接池
   MaxOpenConn: 60                 # 最大打开的连接数
@@ -65,8 +65,8 @@ postgres:
 
 
 redis:
-  Addr: 192.168.18.123:6379
-  Password: "Ins!ght@2026#K9xQ7vP3mZ"
+  Addr: 127.0.0.1:6379
+  Password: ""
   DB: 0
   MinIdleConn: 200
   DialTimeout: 60s

@@ -9,11 +9,9 @@ require (
 	github.com/cenkalti/backoff/v4 v4.2.1
 	github.com/dgraph-io/ristretto v0.1.0
 	github.com/elastic/go-elasticsearch/v7 v7.17.10
-	github.com/foolin/gin-template v0.0.0-20190415034731-41efedfb393b
 	github.com/fsnotify/fsnotify v1.6.0
 	github.com/gin-contrib/cors v1.6.0
 	github.com/gin-contrib/pprof v1.3.0
-	github.com/gin-contrib/static v0.0.0-20200916080430-d45d9a37d28e
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-kratos/aegis v0.2.0
 	github.com/go-mail/mail v2.3.1+incompatible
@@ -41,6 +39,7 @@ require (
 	github.com/redis/go-redis/extra/redisotel/v9 v9.0.5
 	github.com/redis/go-redis/v9 v9.0.5
 	github.com/robfig/cron/v3 v3.0.1
+	github.com/shopspring/decimal v1.4.0
 	github.com/spf13/cast v1.4.1
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.10.0
@@ -176,7 +175,6 @@ require (
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/shirou/gopsutil/v3 v3.23.12 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
-	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/spf13/afero v1.9.2 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
